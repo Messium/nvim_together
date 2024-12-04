@@ -51,6 +51,7 @@ fi
 
 # plugin_dir
 plugin_dir="$HOME/.config/nvim-lazyvim/lua/plugins/"
+options_dir="$HOME/.config/nvim-lazyvim/lua/config/options.lua"
 
 # live_share
 live_share_plugin_path="$plugin_dir/live-share.lua"
@@ -112,7 +113,19 @@ avante_ai="""return {
     },
 }"""
 echo "$avante_ai" >"$avante_ai_plugin_path"
-# echo "require(\"telescope\").load_extension(\'zoxide\')" >> $plugin_dir/telescope.lua
+
+
+nvim_options="""
+local options = {
+ clipboard = 'unnamedplus'
+}
+for k, v in pairs(options) do
+    vim.opt[k] = v
+end
+"""
+if ! grep -q "$nvim_options" "$options_dir"; then
+    echo "$nvim_options" > "$options_dir"
+fi
 
 
 if ! grep -q "alias lazy='NVIM_APPNAME=nvim-lazyvim nvim' # LazyVim" "$zshrc_path"; then
