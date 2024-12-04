@@ -61,30 +61,31 @@ if [ ! -d "$plugin_dir" ]; then
   mkdir -p "$plugin_dir"
 fi
 
-read user_name
-echo $user_name
 
-# setup liveshare.nvim config
-# https://github.com/azratul/live-share.nvim
-live_share="""return {
-  {
-    \"azratul/live-share.nvim\",
-    dependencies = {
-      \"jbyuki/instant.nvim\",
-    },
-    config = function()
-      vim.g.instant_username = \"$user_name\"
-      require(\"live-share\").setup({
-        port_internal = 8765,
-        max_attempts = 40, -- 10 seconds
-        service = \"serveo.net\",
-      })
-    end,
-  },
-}"""
 if ! grep -q "$live_share" "$live_share_plugin_path"; then
-  echo "$live_share" >"$live_share_plugin_path"
+    read user_name
+    echo "$user_name"
+    # setup liveshare.nvim config
+    # https://github.com/azratul/live-share.nvim
+    live_share="""return {
+    {
+        \"azratul/live-share.nvim\",
+        dependencies = {
+        \"jbyuki/instant.nvim\",
+        },
+        config = function()
+        vim.g.instant_username = \"$user_name\"
+        require(\"live-share\").setup({
+            port_internal = 8765,
+            max_attempts = 40, -- 10 seconds
+            service = \"serveo.net\",
+        })
+        end,
+    },
+    }"""
+    echo "$live_share" >"$live_share_plugin_path"
 fi
+
 # echo "$live_share" >"$live_share_plugin_path"
 
 # setup avante.nvim config
