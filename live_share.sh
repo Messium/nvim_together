@@ -110,4 +110,6 @@ if ! grep -q "alias lazy='NVIM_APPNAME=nvim-lazyvim nvim' # LazyVim" "$HOME/.bas
 fi
 
 # make zsh default shell
-chsh -s $(which zsh)
+if [ "$SHELL" != "$(which zsh)" ]; then
+  chsh -s "$(which zsh)"
+fi
