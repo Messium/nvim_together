@@ -9,15 +9,24 @@ package_list="zoxide zsh fzf"
 # Currently I only support apt/dnf
 if command -v apt >/dev/null 2>&1; then
   sudo apt update
-  sudo apt install -y $package_list
+  for package in $package_list; do
+    # if ! dpkg -l | grep -q "^ii  $package "; then
+    sudo apt install -y "$package"
+    # fi
+  done
+
 elif command -v dnf >/dev/null 2>&1; then
-  sudo dnf install -y $package_list
+  for package in $package_list; do
+    if ! rpm -q "$package" >/dev/null 2>&1; then
+      sudo dnf install -y "$package"
+    fi
+  done
 else
   echo "Neither apt nor dnf found. Please install zoxide and zsh manually."
 fi
 
 # install atuin
-if [ ! -f $HOME/.atuin/bin/atuin ]; then
+if [ ! -f "$HOME/.atuin/bin/atuin" ]; then
     echo "No Atuin installed proceeding to installation"
     curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
     echo "eval \"$(atuin init zsh)\"" >> "$zshrc_path"
