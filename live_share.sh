@@ -14,6 +14,12 @@ else
   echo "Neither apt nor dnf found. Please install zoxide and zsh manually."
 fi
 
+if [ ! -f ~/.atuin/bin ]; then
+    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+    echo "eval \"$(atuin init zsh)\"" >> "$zshrc_path"
+    echo 'eval \"$(atuin init bash)\"' >> "$bashrc_path"
+fi
+
 # install starship
 if [ ! -f /usr/bin/starship ]; then
   # install starship
