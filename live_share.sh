@@ -1,5 +1,29 @@
 #!bin/bash
 
+
+zshrc_path="$HOME/.zshrc"
+bashrc_path="$HOME/.bashrc"
+
+# Install zoxide, zsh and fzf
+if command -v apt >/dev/null 2>&1; then
+  sudo apt update
+  sudo apt install -y zoxide zsh fzf
+elif command -v dnf >/dev/null 2>&1; then
+  sudo dnf install -y zoxide zsh fzf
+else
+  echo "Neither apt nor dnf found. Please install zoxide and zsh manually."
+fi
+
+# install starship
+if [ ! -f /usr/bin/starship ]; then
+  # install starship
+  curl -sS https://starship.rs/install.sh | sh
+  # ~/.zshrc
+  echo "eval \"$(starship init zsh)\"" >> "$zshrc_path"
+  # ~/.bashrc
+  echo "eval \"$(starship init bash)\"" >> "$bashrc_path"
+fi
+
 # lazyvim installed?
 if [ ! -d "$HOME/.config/nvim-lazyvim/" ]; then
   git clone https://github.com/LazyVim/starter ~/.config/nvim-lazyvim/
