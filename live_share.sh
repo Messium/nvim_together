@@ -4,13 +4,14 @@
 zshrc_path="$HOME/.zshrc"
 bashrc_path="$HOME/.bashrc"
 
+package_list="zoxide zsh fzf"
 # Install zoxide, zsh and fzf
 # Currently I only support apt/dnf
 if command -v apt >/dev/null 2>&1; then
   sudo apt update
-  sudo apt install -y zoxide zsh fzf
+  sudo apt install -y $package_list
 elif command -v dnf >/dev/null 2>&1; then
-  sudo dnf install -y zoxide zsh fzf
+  sudo dnf install -y $package_list
 else
   echo "Neither apt nor dnf found. Please install zoxide and zsh manually."
 fi
@@ -24,7 +25,7 @@ if [ ! -f $HOME/.atuin/bin/atuin ]; then
 fi
 
 # install starship
-if [ ! -f /usr/bin/starship ]; then
+if [ ! -f /usr/bin/starship ] && [ ! -f /usr/local/bin/starship ]; then
   echo "No starship installed proceeding to installation"
   curl -sS https://starship.rs/install.sh | sh
   # ~/.zshrc
