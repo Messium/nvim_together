@@ -15,6 +15,7 @@ else
   echo "Neither apt nor dnf found. Please install zoxide and zsh manually."
 fi
 
+# install atuin
 if [ ! -f $HOME/.atuin/bin/atuin ]; then
     echo "No Atuin installed proceeding to installation"
     curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
@@ -32,7 +33,7 @@ if [ ! -f /usr/bin/starship ]; then
   echo "eval \"$(starship init bash)\"" >> "$bashrc_path"
 fi
 
-# lazyvim installed?
+# install lazyvim
 if [ ! -d "$HOME/.config/nvim-lazyvim/" ]; then
   echo "No lazyvim installed proceeding to installation"
   git clone https://github.com/LazyVim/starter ~/.config/nvim-lazyvim/
@@ -45,6 +46,7 @@ plugin_dir="$HOME/.config/nvim-lazyvim/lua/plugins/"
 live_share_plugin_path="$plugin_dir/live-share.lua"
 avante_ai_plugin_path="$plugin_dir/avante.lua"
 
+# check if folder exist (should exist)
 if [ ! -d "$plugin_dir" ]; then
   mkdir -p "$plugin_dir"
 fi
@@ -52,6 +54,8 @@ fi
 read user_name
 echo $user_name
 
+# setup liveshare.nvim config
+# https://github.com/azratul/live-share.nvim
 live_share="""return {
   {
     \"azratul/live-share.nvim\",
@@ -68,8 +72,13 @@ live_share="""return {
     end,
   },
 }"""
-echo "$live_share" >"$live_share_plugin_path"
+if ! grep -q "$live_share" "$live_share_plugin_path"; then
+  echo "$live_share" >"$live_share_plugin_path"
+fi
+# echo "$live_share" >"$live_share_plugin_path"
 
+# setup avante.nvim config
+# https://github.com/yetone/avante.nvim
 avante_ai="""return {
     \"yetone/avante.nvim\",
     event = \"VeryLazy\",
