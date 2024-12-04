@@ -5,6 +5,7 @@ zshrc_path="$HOME/.zshrc"
 bashrc_path="$HOME/.bashrc"
 
 # Install zoxide, zsh and fzf
+# Currently I only support apt/dnf
 if command -v apt >/dev/null 2>&1; then
   sudo apt update
   sudo apt install -y zoxide zsh fzf
@@ -14,7 +15,8 @@ else
   echo "Neither apt nor dnf found. Please install zoxide and zsh manually."
 fi
 
-if [ ! -f ~/.atuin/bin ]; then
+if [ ! -f $HOME/.atuin/bin ]; then
+    echo "No Atuin installed proceeding to installation"
     curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
     echo "eval \"$(atuin init zsh)\"" >> "$zshrc_path"
     echo 'eval \"$(atuin init bash)\"' >> "$bashrc_path"
@@ -22,7 +24,7 @@ fi
 
 # install starship
 if [ ! -f /usr/bin/starship ]; then
-  # install starship
+  echo "No starship installed proceeding to installation"
   curl -sS https://starship.rs/install.sh | sh
   # ~/.zshrc
   echo "eval \"$(starship init zsh)\"" >> "$zshrc_path"
@@ -32,6 +34,7 @@ fi
 
 # lazyvim installed?
 if [ ! -d "$HOME/.config/nvim-lazyvim/" ]; then
+  echo "No lazyvim installed proceeding to installation"
   git clone https://github.com/LazyVim/starter ~/.config/nvim-lazyvim/
 fi
 
@@ -94,6 +97,8 @@ echo "$avante_ai" >"$avante_ai_plugin_path"
 
 if ! grep -q "alias lazy='NVIM_APPNAME=nvim-lazyvim nvim' # LazyVim" "$HOME/.bashrc"; then
   echo "alias lazy='NVIM_APPNAME=nvim-lazyvim nvim' # LazyVim" >>"$HOME/.bashrc"
-  source "$HOME/.bashrc"
+  exec /bin/zsh # does this work for sourcing .zshrc?
 fi
-lazy
+
+# make zsh default shell
+chsh -s $(which zsh)
