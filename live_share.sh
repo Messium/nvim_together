@@ -15,7 +15,7 @@ else
   echo "Neither apt nor dnf found. Please install zoxide and zsh manually."
 fi
 
-if [ ! -f $HOME/.atuin/bin ]; then
+if [ ! -f $HOME/.atuin/bin/atuin ]; then
     echo "No Atuin installed proceeding to installation"
     curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
     echo "eval \"$(atuin init zsh)\"" >> "$zshrc_path"
