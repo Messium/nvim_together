@@ -61,5 +61,9 @@ avante_ai="""return {
 echo "$avante_ai" >"$avante_ai_plugin_path"
 # echo "require(\"telescope\").load_extension(\'zoxide\')" >> $plugin_dir/telescope.lua
 
-echo "alias lazy='NVIM_APPNAME=nvim-lazyvim nvim' # LazyVim" >>"$HOME/.bashrc"
-source $HOME/.bashrc
+
+if ! grep -q "alias lazy='NVIM_APPNAME=nvim-lazyvim nvim' # LazyVim" "$HOME/.bashrc"; then
+  echo "alias lazy='NVIM_APPNAME=nvim-lazyvim nvim' # LazyVim" >>"$HOME/.bashrc"
+  source "$HOME/.bashrc"
+fi
+lazy
