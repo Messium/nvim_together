@@ -4,7 +4,7 @@
 zshrc_path="$HOME/.zshrc"
 bashrc_path="$HOME/.bashrc"
 
-package_list="zoxide zsh fzf"
+package_list="zoxide zsh fzf jq yq"
 # Install zoxide, zsh and fzf
 # Currently I only support apt/dnf
 if command -v apt >/dev/null 2>&1; then
