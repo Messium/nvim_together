@@ -10,7 +10,6 @@ options_dir="$HOME/.config/nvim-lazyvim/lua/config/options.lua"
 
 # live_share
 live_share_plugin_path="$plugin_dir/live-share.lua"
-avante_ai_plugin_path="$plugin_dir/avante.lua"
 
 # check if folder exist (should exist)
 if [ ! -d "$plugin_dir" ]; then
